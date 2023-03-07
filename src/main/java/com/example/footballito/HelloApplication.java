@@ -143,9 +143,13 @@ public class HelloApplication extends Application {
 
                 if (isUpPressed) {
                     dy -= 1;
+                    if(player.getCenterY()- player.getRadius() <= field_y || player.getCenterY() + player.getRadius() >= field_height + field_y){
+                        dy+=1;
+                    }
                 }
                 if (isDownPressed) {
                     dy += 1;
+
                 }
                 if (isLeftPressed) {
                     dx -= 1;
