@@ -5,8 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -16,8 +15,8 @@ import java.io.File;
 public class HelloApplication extends Application {
     private Circle ball;
     private double speed = 5;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 920;
+    private static final int HEIGHT = 576;
     private boolean isUpPressed = false;
     private boolean isDownPressed = false;
     private boolean isLeftPressed = false;
@@ -41,20 +40,16 @@ public class HelloApplication extends Application {
 
 // Load the image
         try {
-        File file = new File("image/footTerrain.jpg");
+        File file = new File("image/field.png");
         System.out.println(file.toURI());
 
-            Image backgroundImage = new Image(file.toURI().toString());
-            root.setStyle("-fx-background-image: url('" + backgroundImage + "');" +
-                    "-fx-background-position: center center;" +
-                    "-fx-background-repeat: stretch;");
+        Image im = new Image(file.toURI().toString());
+        root.setBackground(new Background(new BackgroundImage(im, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        root.getChildren().add(pane);
         } catch (Exception e) {
             System.out.println("Error loading image: " + e.getMessage());
         }
 
-
-// add the pane to the root node
-        root.getChildren().add(pane);
 
 // create a scene with the root node
         Scene scene = new Scene(root, WIDTH, HEIGHT);
