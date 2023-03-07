@@ -8,12 +8,24 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
 
 public class HelloApplication extends Application {
     private Circle ball;
+
+    private Circle player;
+    private double ball_radius = 17;
+    private double joueur_radius = 25;
+
+    private Rectangle rectangle;
+
+    private double field_width = 840;
+    private double field_height = 544;
+    private double field_x = 40;
+    private double field_y = 16;
     private double speed = 5;
     private static final int WIDTH = 920;
     private static final int HEIGHT = 576;
@@ -23,22 +35,38 @@ public class HelloApplication extends Application {
     private boolean isRightPressed = false;
     private double dx = 0;
     private double dy = 0;
+    private double dx_ball = 2;
+    private double dy_ball = -2;
+
 
     @Override
     public void start(Stage stage) throws Exception {
+        // create a player
+        player = new Circle(joueur_radius, Color.INDIANRED);
+        player.setCenterX(100);
+        player.setCenterY(100);
+
         // create a ball
-        ball = new Circle(20, Color.BLUEVIOLET);
+        ball = new Circle(ball_radius, Color.BLUEVIOLET);
         ball.setCenterX(100);
         ball.setCenterY(100);
+
+        // create a rectangle
+        rectangle = new Rectangle(field_width, field_height, null);
+        rectangle.setStroke(Color.RED);
+        rectangle.setX(field_x);
+        rectangle.setY(field_y);
 
         // create a pane to hold the ball
         Pane pane = new Pane();
         pane.getChildren().add(ball);
+        pane.getChildren().add(player);
+        pane.getChildren().add(rectangle);
 
-// Create a StackPane as the root node
+        // Create a StackPane as the root node
         StackPane root = new StackPane();
 
-// Load the image
+        // Load the image
         try {
         File file = new File("image/field.png");
         System.out.println(file.toURI());
@@ -50,8 +78,7 @@ public class HelloApplication extends Application {
             System.out.println("Error loading image: " + e.getMessage());
         }
 
-
-// create a scene with the root node
+        // create a scene with the root node
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         // update the ball's position when an arrow key is pressed
@@ -89,6 +116,31 @@ public class HelloApplication extends Application {
                 // calculate the ball's new position based on the arrow key events
                 dx = 0;
                 dy = 0;
+
+                // Update the ball's velocity based on friction
+                double friction = 0.005;
+                if (dx_ball > 0) {
+                    dx_ball = Math.max(0, dx_ball - friction);
+                } else if (dx_ball < 0) {
+                    dx_ball = Math.min(0, dx_ball + friction);
+                }
+                if (dy_ball > 0) {
+                    dy_ball = Math.max(0, dy_ball - friction);
+                } else if (dy_ball < 0) {
+                    dy_ball = Math.min(0, dy_ball + friction);
+                }
+
+                // Check collision with the left or right border
+                if (ball.getCenterX() - ball_radius <= field_x || ball.getCenterX() + ball_radius >= field_width + field_x) {
+                    dx_ball *= -1; // Reverse the ball's x velocity
+                }
+
+                // Check collision with the top or bottom border
+                if (ball.getCenterY() - ball_radius <= field_y || ball.getCenterY() + ball_radius >= field_height + field_y) {
+                    dy_ball *= -1; // Reverse the ball's y velocity
+                }
+
+
                 if (isUpPressed) {
                     dy -= 1;
                 }
@@ -106,14 +158,17 @@ public class HelloApplication extends Application {
                     dx /= length;
                     dy /= length;
                 }
-                ball.setCenterX(ball.getCenterX() + dx * speed);
-                ball.setCenterY(ball.getCenterY() + dy * speed);
+                player.setCenterX(player.getCenterX() + dx * speed);
+                player.setCenterY(player.getCenterY() + dy * speed);
+                ball.setCenterX(ball.getCenterX() + dx_ball * speed);
+                ball.setCenterY(ball.getCenterY() + dy_ball * speed);
             }
         }.start();
 
         // show the stage
 
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
