@@ -17,7 +17,7 @@ public class HelloApplication extends Application {
     private Circle ball;
 
     private Circle player;
-    private double ball_radius = 17;
+    private double ball_radius = 18;
     private double joueur_radius = 25;
 
     private Rectangle rectangle;
