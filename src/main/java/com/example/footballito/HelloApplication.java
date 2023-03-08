@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
 
     private Circle player;
     private double ball_radius = 18;
-    private double joueur_radius = 25;
+    private double player_radius = 25;
 
     private Rectangle rectangle;
 
@@ -42,7 +42,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // create a player
-        player = new Circle(joueur_radius, Color.INDIANRED);
+        player = new Circle(player_radius, Color.INDIANRED);
         player.setCenterX(100);
         player.setCenterY(100);
 
@@ -118,7 +118,7 @@ public class HelloApplication extends Application {
                 dy = 0;
 
                 // Update the ball's velocity based on friction
-                double friction = 0.005;
+                double friction = 0.05;
                 if (dx_ball > 0) {
                     dx_ball = Math.max(0, dx_ball - friction);
                 } else if (dx_ball < 0) {
@@ -140,6 +140,14 @@ public class HelloApplication extends Application {
                     dy_ball *= -1; // Reverse the ball's y velocity
                 }
 
+                // Check collision with player
+                double distance = Math.sqrt(Math.pow(ball.getCenterX() - player.getCenterX(), 2) + Math.pow(ball.getCenterY() - player.getCenterY(), 2));
+                if (distance <= ball_radius + player_radius) {
+                    // Player has hit the ball, update the ball's velocity
+                    double pushFactor = 0.01; // Adjust this value to control how much the ball is pushed
+                    dx_ball += (ball.getCenterX() - player.getCenterX()) * pushFactor;
+                    dy_ball += (ball.getCenterY() - player.getCenterY()) * pushFactor;
+                }
 
                 if (isUpPressed) {
                     dy -= 1;
