@@ -26,7 +26,7 @@ public class HelloApplication extends Application {
     private double field_height = 544;
     private double field_x = 40;
     private double field_y = 16;
-    private double speed = 5;
+    private double speed = 3;
     private static final int WIDTH = 920;
     private static final int HEIGHT = 576;
     private boolean isUpPressed = false;
@@ -41,21 +41,23 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // create a player
-        player = new Circle(player_radius, Color.INDIANRED);
+
+        // create factories
+        ObjetJeuxFactory balleFactory = new BalleFactory(ball_radius);
+        ObjetJeuxFactory joueurFactory = new JoueurFactory(player_radius);
+        ObjetJeuxFactory terrainFactory = new TerrainFactory(field_width, field_height, field_x, field_y);
+
+        // create the objects using the factories
+        Circle ball = balleFactory.CréerBalle();
+        Circle player = joueurFactory.CréerJoueur();
+        Rectangle rectangle = terrainFactory.CréerTerrain();
+
         player.setCenterX(100);
         player.setCenterY(100);
 
-        // create a ball
-        ball = new Circle(ball_radius, Color.BLUEVIOLET);
         ball.setCenterX(100);
         ball.setCenterY(100);
 
-        // create a rectangle
-        rectangle = new Rectangle(field_width, field_height, null);
-        rectangle.setStroke(Color.RED);
-        rectangle.setX(field_x);
-        rectangle.setY(field_y);
 
         // create a pane to hold the ball
         Pane pane = new Pane();
