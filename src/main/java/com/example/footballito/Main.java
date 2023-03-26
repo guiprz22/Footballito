@@ -6,22 +6,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
 
-public class HelloApplication extends Application {
-    private Circle ball;
-
-    private Circle player;
+public class Main extends Application {
     private double ball_radius = 18;
     private double player_radius = 25;
-
-    private Rectangle rectangle;
-
     private double field_width = 840;
     private double field_height = 544;
     private double field_x = 40;
@@ -42,18 +35,23 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        // create factories
+        // creation factory
         ObjetJeuxFactory balleFactory = new BalleFactory(ball_radius);
         ObjetJeuxFactory joueurFactory = new JoueurFactory(player_radius);
+        ObjetJeuxFactory joueurFactory2 = new JoueurFactory(player_radius);
         ObjetJeuxFactory terrainFactory = new TerrainFactory(field_width, field_height, field_x, field_y);
 
-        // create the objects using the factories
+        // creation obj
         Circle ball = balleFactory.CréerBalle();
         Circle player = joueurFactory.CréerJoueur();
+        Circle player2 = joueurFactory2.CréerJoueur();
         Rectangle rectangle = terrainFactory.CréerTerrain();
 
         player.setCenterX(100);
         player.setCenterY(100);
+
+        player2.setCenterX(100);
+        player2.setCenterY(100);
 
         ball.setCenterX(100);
         ball.setCenterY(100);
@@ -63,6 +61,7 @@ public class HelloApplication extends Application {
         Pane pane = new Pane();
         pane.getChildren().add(ball);
         pane.getChildren().add(player);
+        pane.getChildren().add(player2);
         pane.getChildren().add(rectangle);
 
         // Create a StackPane as the root node
