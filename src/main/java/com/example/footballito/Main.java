@@ -26,8 +26,19 @@ public class Main extends Application {
     private boolean isDownPressed = false;
     private boolean isLeftPressed = false;
     private boolean isRightPressed = false;
+
+    private boolean isZPressed = false;
+
+    private boolean isDPressed = false;
+
+    private boolean isQPressed = false;
+
+    private boolean isSPressed = false;
     private double dx = 0;
     private double dy = 0;
+
+    private double dx2 = 0;
+    private double dy2 = 0;
     private double dx_ball = 2;
     private double dy_ball = -2;
 
@@ -94,6 +105,15 @@ public class Main extends Application {
             } else if (code == KeyCode.RIGHT) {
                 isRightPressed = true;
             }
+            else if (code == KeyCode.Z) {
+                isZPressed = true;
+            } else if (code == KeyCode.S) {
+                isSPressed = true;
+            } else if (code == KeyCode.Q) {
+                isQPressed = true;
+            } else if (code == KeyCode.D) {
+                isDPressed = true;
+            }
         });
 
         // stop the ball when an arrow key is released
@@ -107,6 +127,14 @@ public class Main extends Application {
                 isLeftPressed = false;
             } else if (code == KeyCode.RIGHT) {
                 isRightPressed = false;
+            } else if (code == KeyCode.Z) {
+                isZPressed = false;
+            } else if (code == KeyCode.S) {
+                isSPressed = false;
+            } else if (code == KeyCode.Q) {
+                isQPressed = false;
+            } else if (code == KeyCode.D) {
+                isDPressed = false;
             }
         });
 
@@ -117,7 +145,8 @@ public class Main extends Application {
                 // calculate the ball's new position based on the arrow key events
                 dx = 0;
                 dy = 0;
-
+                dx2=0;
+                dy2=0;
                 // Update the ball's velocity based on friction
                 double friction = 0.05;
                 if (dx_ball > 0) {
@@ -149,6 +178,13 @@ public class Main extends Application {
                     dx_ball += (ball.getCenterX() - player.getCenterX()) * pushFactor;
                     dy_ball += (ball.getCenterY() - player.getCenterY()) * pushFactor;
                 }
+                double distance2 = Math.sqrt(Math.pow(ball.getCenterX() - player2.getCenterX(), 2) + Math.pow(ball.getCenterY() - player2.getCenterY(), 2));
+                if (distance2 <= ball_radius + player_radius) {
+                    // Player has hit the ball, update the ball's velocity
+                    double pushFactor = 0.01; // Adjust this value to control how much the ball is pushed
+                    dx_ball += (ball.getCenterX() - player2.getCenterX()) * pushFactor;
+                    dy_ball += (ball.getCenterY() - player2.getCenterY()) * pushFactor;
+                }
 
                 if (isUpPressed) {
                     dy -= 1;
@@ -174,13 +210,43 @@ public class Main extends Application {
                         dx *= -1;
                     }
                 }
+
+                if (isZPressed) {
+                    dy2 -= 1;
+                    if (player2.getCenterY() - player_radius <= field_y ) {
+                        dy2 *= -1;
+                    }
+                }
+                if (isSPressed) {
+                    dy2 += 1;
+                    if (player2.getCenterY() + player_radius >= field_height + field_y) {
+                        dy2 *= -1;
+                    }
+                }
+                if (isQPressed) {
+                    dx2 -= 1;
+                    if (player2.getCenterX() - player_radius <= field_x ) {
+                        dx2 *= -1;
+                    }
+                }
+                if (isDPressed) {
+                    dx2 += 1;
+                    if (player2.getCenterX() + player_radius >= field_width + field_x) {
+                        dx2 *= -1;
+                    }
+                }
                 double length = Math.sqrt(dx * dx + dy * dy);
+                double length2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
                 if (length != 0) {
                     dx /= length;
                     dy /= length;
+                    dx2 /= length;
+                    dy2 /= length;
                 }
                 player.setCenterX(player.getCenterX() + dx * speed);
                 player.setCenterY(player.getCenterY() + dy * speed);
+                player2.setCenterX(player2.getCenterX() + dx2 * speed);
+                player2.setCenterY(player2.getCenterY() + dy2 * speed);
                 ball.setCenterX(ball.getCenterX() + dx_ball * speed);
                 ball.setCenterY(ball.getCenterY() + dy_ball * speed);
             }
