@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -48,8 +49,8 @@ public class Main extends Application {
 
         // creation factory
         ObjetJeuxFactory balleFactory = new BalleFactory(ball_radius);
-        ObjetJeuxFactory joueurFactory = new JoueurFactory(player_radius);
-        ObjetJeuxFactory joueurFactory2 = new JoueurFactory(player_radius);
+        ObjetJeuxFactory joueurFactory = new JoueurFactory(player_radius, Color.RED);
+        ObjetJeuxFactory joueurFactory2 = new JoueurFactory(player_radius,Color.BLUE);
         ObjetJeuxFactory terrainFactory = new TerrainFactory(field_width, field_height, field_x, field_y);
 
         // creation obj

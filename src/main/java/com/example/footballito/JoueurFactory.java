@@ -5,10 +5,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class JoueurFactory implements ObjetJeuxFactory {
-    private double player_radius;
-
-    public JoueurFactory(double player_radius) {
-        this.player_radius = player_radius;
+    private double joueur_radius;
+    private Color joueur_color;
+    public JoueurFactory(double joueur_radius,Color joueur_color) {
+        this.joueur_radius = joueur_radius;
+        this.joueur_color = joueur_color;
     }
 
     public Circle CréerBalle() {
@@ -16,7 +17,7 @@ public class JoueurFactory implements ObjetJeuxFactory {
     }
 
     public Circle CréerJoueur() {
-        return new Circle(player_radius, Color.INDIANRED);
+        return new Circle(joueur_radius, joueur_color);
     }
 
     public Rectangle CréerTerrain() {
