@@ -99,20 +99,27 @@ public class Main extends Application {
             KeyCode code = event.getCode();
             if (code == KeyCode.UP) {
                 isUpPressed = true;
-            } else if (code == KeyCode.DOWN) {
+            }
+            if (code == KeyCode.DOWN) {
                 isDownPressed = true;
-            } else if (code == KeyCode.LEFT) {
+            }
+            if (code == KeyCode.LEFT) {
                 isLeftPressed = true;
-            } else if (code == KeyCode.RIGHT) {
+            }
+            if (code == KeyCode.RIGHT) {
                 isRightPressed = true;
             }
-            else if (code == KeyCode.Z) {
+
+             if (code == KeyCode.Z) {
                 isZPressed = true;
-            } else if (code == KeyCode.S) {
+            }
+             if (code == KeyCode.S) {
                 isSPressed = true;
-            } else if (code == KeyCode.Q) {
+            }
+             if (code == KeyCode.Q) {
                 isQPressed = true;
-            } else if (code == KeyCode.D) {
+            }
+             if (code == KeyCode.D) {
                 isDPressed = true;
             }
         });
@@ -122,19 +129,26 @@ public class Main extends Application {
             KeyCode code = event.getCode();
             if (code == KeyCode.UP) {
                 isUpPressed = false;
-            } else if (code == KeyCode.DOWN) {
+            }
+            if (code == KeyCode.DOWN) {
                 isDownPressed = false;
-            } else if (code == KeyCode.LEFT) {
+            }
+            if (code == KeyCode.LEFT) {
                 isLeftPressed = false;
-            } else if (code == KeyCode.RIGHT) {
+            }
+            if (code == KeyCode.RIGHT) {
                 isRightPressed = false;
-            } else if (code == KeyCode.Z) {
+            }
+            if (code == KeyCode.Z) {
                 isZPressed = false;
-            } else if (code == KeyCode.S) {
+            }
+            if (code == KeyCode.S) {
                 isSPressed = false;
-            } else if (code == KeyCode.Q) {
+            }
+            if (code == KeyCode.Q) {
                 isQPressed = false;
-            } else if (code == KeyCode.D) {
+            }
+            if (code == KeyCode.D) {
                 isDPressed = false;
             }
         });
@@ -241,8 +255,10 @@ public class Main extends Application {
                 if (length != 0) {
                     dx /= length;
                     dy /= length;
-                    dx2 /= length;
-                    dy2 /= length;
+                }
+                if (length2!=0){
+                    dx2 /= length2;
+                    dy2 /= length2;
                 }
                 player.setCenterX(player.getCenterX() + dx * speed);
                 player.setCenterY(player.getCenterY() + dy * speed);
