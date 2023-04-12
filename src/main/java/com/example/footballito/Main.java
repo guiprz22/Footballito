@@ -278,7 +278,10 @@ public class Main extends Application {
                     dx /= length;
                     dy /= length;
                 }
-
+                if (length2!=0){
+                    dx2 /= length2;
+                    dy2 /= length2;
+                }
                 double newX = player.getCenterX() + dx * speed;
                 double newY = player.getCenterY() + dy * speed;
 
