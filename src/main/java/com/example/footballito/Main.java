@@ -7,151 +7,84 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
 
 public class Main extends Application {
-    private double ball_radius = 18;
-    private double player_radius = 25;
-    private double field_width = 840;
-    private double field_height = 544;
-    private double field_x = 40;
-    private double field_y = 16;
-    private double speed = 3;
-    private static final int WIDTH = 920;
-    private static final int HEIGHT = 576;
-    private boolean isUpPressed = false;
-    private boolean isDownPressed = false;
-    private boolean isLeftPressed = false;
-    private boolean isRightPressed = false;
+        private static final double BALL_RADIUS = 18;
+        private static final double PLAYER_RADIUS = 25;
+        private static final double FIELD_WIDTH = 840;
+        private static final double FIELD_HEIGHT = 544;
+        private static final double FIELD_X = 40;
+        private static final double FIELD_Y = 16;
+        private static final double PLAYER_SPEED = 3;
+        private static final int WIDTH = 920;
+        private static final int HEIGHT = 576;
 
-    private boolean isZPressed = false;
+        private double dx = 0;
+        private double dy = 0;
 
-    private boolean isDPressed = false;
-
-    private boolean isQPressed = false;
-
-    private boolean isSPressed = false;
-    private double dx = 0;
-    private double dy = 0;
-
-    private double dx2 = 0;
-    private double dy2 = 0;
-    private double dx_ball = 2;
-    private double dy_ball = -2;
+        private double dx2 = 0;
+        private double dy2 = 0;
+        private double dx_ball = 2;
+        private double dy_ball = -2;
 
 
-    @Override
-    public void start(Stage stage) throws Exception {
+        @Override
+        public void start(Stage stage) throws Exception {
 
-        // creation factory
-        ObjetJeuxFactory balleFactory = new BalleFactory(ball_radius);
-        ObjetJeuxFactory joueurFactory = new JoueurFactory(player_radius, Color.RED);
-        ObjetJeuxFactory joueurFactory2 = new JoueurFactory(player_radius,Color.BLUE);
-        ObjetJeuxFactory terrainFactory = new TerrainFactory(field_width, field_height, field_x, field_y);
+        // Create factories
+        ObjetJeuxFactory balleFactory = new BalleFactory(BALL_RADIUS, Color.YELLOW, 400, 400);
+        ObjetJeuxFactory joueurFactory = new JoueurFactory(PLAYER_RADIUS, Color.RED, PLAYER_SPEED, 100, 200);
+        ObjetJeuxFactory joueurFactory2 = new JoueurFactory(PLAYER_RADIUS, Color.BLUE, PLAYER_SPEED, 100, 400);
+        TerrainFactory terrainFactory = new TerrainFactory(FIELD_WIDTH, FIELD_HEIGHT, FIELD_X, FIELD_Y);
 
-        // creation obj
-        Circle ball = balleFactory.CréerBalle();
-        Circle player = joueurFactory.CréerJoueur();
-        Circle player2 = joueurFactory2.CréerJoueur();
-        Rectangle rectangle = terrainFactory.CréerTerrain();
+        // Create objects
+        Ball ball = balleFactory.createBalle();
+        Player player1 = joueurFactory.createJoueur();
+        Player player2 = joueurFactory2.createJoueur();
 
-        player.setCenterX(100);
-        player.setCenterY(100);
+        // Create terrain using the factory
+        Terrain terrain = terrainFactory.createTerrain();
 
-        player2.setCenterX(100);
-        player2.setCenterY(100);
-
-        ball.setCenterX(100);
-        ball.setCenterY(100);
-
-
-        // create a pane to hold the ball
+        // create a pane to hold the objects
         Pane pane = new Pane();
-        pane.getChildren().add(ball);
-        pane.getChildren().add(player);
-        pane.getChildren().add(player2);
-        pane.getChildren().add(rectangle);
 
+
+        pane.getChildren().add(ball);
+        pane.getChildren().add(player1);
+        pane.getChildren().add(player2);
+        // Draw the terrain elements
+        terrain.drawElements(pane);
+            
         // Create a StackPane as the root node
         StackPane root = new StackPane();
-
-        // Load the image
-        try {
-        File file = new File("image/field.png");
-        System.out.println(file.toURI());
-
-        Image im = new Image(file.toURI().toString());
-        root.setBackground(new Background(new BackgroundImage(im, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        root.getChildren().add(pane);
-        } catch (Exception e) {
-            System.out.println("Error loading image: " + e.getMessage());
-        }
+        // Set the background image of the terrain
+        terrain.setBackgroundImage(root);
 
         // create a scene with the root node
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        // update the ball's position when an arrow key is pressed
+        // Create player1 with keys W, S, A, and D
+        player1.setControlStrategy(new UserPlayerControlStrategy(KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D));
+        player2.setControlStrategy(new UserPlayerControlStrategy(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT));
+
+
         scene.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
-            if (code == KeyCode.UP) {
-                isUpPressed = true;
-            }
-            if (code == KeyCode.DOWN) {
-                isDownPressed = true;
-            }
-            if (code == KeyCode.LEFT) {
-                isLeftPressed = true;
-            }
-            if (code == KeyCode.RIGHT) {
-                isRightPressed = true;
-            }
-
-             if (code == KeyCode.Z) {
-                isZPressed = true;
-            }
-             if (code == KeyCode.S) {
-                isSPressed = true;
-            }
-             if (code == KeyCode.Q) {
-                isQPressed = true;
-            }
-             if (code == KeyCode.D) {
-                isDPressed = true;
-            }
+            ((UserPlayerControlStrategy) player1.getControlStrategy()).setKeyPressed(code, true);
+            ((UserPlayerControlStrategy) player2.getControlStrategy()).setKeyPressed(code, true);
         });
 
-        // stop the ball when an arrow key is released
+
         scene.setOnKeyReleased(event -> {
             KeyCode code = event.getCode();
-            if (code == KeyCode.UP) {
-                isUpPressed = false;
-            }
-            if (code == KeyCode.DOWN) {
-                isDownPressed = false;
-            }
-            if (code == KeyCode.LEFT) {
-                isLeftPressed = false;
-            }
-            if (code == KeyCode.RIGHT) {
-                isRightPressed = false;
-            }
-            if (code == KeyCode.Z) {
-                isZPressed = false;
-            }
-            if (code == KeyCode.S) {
-                isSPressed = false;
-            }
-            if (code == KeyCode.Q) {
-                isQPressed = false;
-            }
-            if (code == KeyCode.D) {
-                isDPressed = false;
-            }
+            ((UserPlayerControlStrategy) player1.getControlStrategy()).setKeyPressed(code, false);
+            ((UserPlayerControlStrategy) player2.getControlStrategy()).setKeyPressed(code, false);
         });
+
 
         // update the ball's position every frame
         new AnimationTimer() {
@@ -176,102 +109,71 @@ public class Main extends Application {
                 }
 
                 double distance;
-                if (ball.getCenterX() - ball_radius <= field_x) {
+                if (ball.getCenterX() - ball.getRadius() <= FIELD_X) {
                     dx_ball = Math.abs(dx_ball); // Reverse the ball's x velocity
-                    ball.setCenterX(field_x + ball_radius); // Set the ball inside the field
+                    ball.setCenterX(FIELD_X + ball.getRadius()); // Set the ball inside the field
 
                     // Check for a collision between the player and the adjusted ball position
-                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player.getCenterX(), 2) + Math.pow(ball.getCenterY() - player.getCenterY(), 2));
-                    if (distance <= ball_radius + player_radius) {
+                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player1.getCenterX(), 2) + Math.pow(ball.getCenterY() - player1.getCenterY(), 2));
+                    if (distance <= ball.getRadius() + PLAYER_RADIUS) {
                         // Adjust the player's position to be outside the ball
-                        player.setCenterX(ball.getCenterX() + ball_radius + player_radius);
+                        player1.setCenterX(ball.getCenterX() + ball.getRadius() + PLAYER_RADIUS);
                     }
-                } else if (ball.getCenterX() + ball_radius >= field_width + field_x) {
+                } else if (ball.getCenterX() + ball.getRadius() >= FIELD_WIDTH + FIELD_X) {
                     dx_ball = -Math.abs(dx_ball); // Reverse the ball's x velocity
-                    ball.setCenterX(field_x + field_width - ball_radius); // Set the ball inside the field
+                    ball.setCenterX(FIELD_X + FIELD_WIDTH - ball.getRadius()); // Set the ball inside the field
 
                     // Check for a collision between the player and the adjusted ball position
-                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player.getCenterX(), 2) + Math.pow(ball.getCenterY() - player.getCenterY(), 2));
-                    if (distance <= ball_radius + player_radius) {
+                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player1.getCenterX(), 2) + Math.pow(ball.getCenterY() - player1.getCenterY(), 2));
+                    if (distance <= ball.getRadius() + PLAYER_RADIUS) {
                         // Adjust the player's position to be outside the ball
-                        player.setCenterX(ball.getCenterX() - ball_radius - player_radius);
+                        player1.setCenterX(ball.getCenterX() - ball.getRadius() - PLAYER_RADIUS);
                     }
                 }
 
-                if (ball.getCenterY() - ball_radius <= field_y) {
+                if (ball.getCenterY() - ball.getRadius() <= FIELD_Y) {
                     dy_ball = Math.abs(dy_ball); // Reverse the ball's y velocity
-                    ball.setCenterY(field_y + ball_radius); // Set the ball inside the field
+                    ball.setCenterY(FIELD_Y + ball.getRadius()); // Set the ball inside the field
 
                     // Check for a collision between the player and the adjusted ball position
-                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player.getCenterX(), 2) + Math.pow(ball.getCenterY() - player.getCenterY(), 2));
-                    if (distance <= ball_radius + player_radius) {
+                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player1.getCenterX(), 2) + Math.pow(ball.getCenterY() - player1.getCenterY(), 2));
+                    if (distance <= ball.getRadius() + PLAYER_RADIUS) {
                         // Adjust the player's position to be outside the ball
-                        player.setCenterY(ball.getCenterY() + ball_radius + player_radius);
+                        player1.setCenterY(ball.getCenterY() + ball.getRadius() + PLAYER_RADIUS);
                     }
-                } else if (ball.getCenterY() + ball_radius >= field_height + field_y) {
+                } else if (ball.getCenterY() + ball.getRadius() >= FIELD_HEIGHT + FIELD_Y) {
                     dy_ball = -Math.abs(dy_ball); // Reverse the ball's y velocity
-                    ball.setCenterY(field_y + field_height - ball_radius); // Set the ball inside the field
+                    ball.setCenterY(FIELD_Y + FIELD_HEIGHT - ball.getRadius()); // Set the ball inside the field
 
                     // Check for a collision between the player and the adjusted ball position
-                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player.getCenterX(), 2) + Math.pow(ball.getCenterY() - player.getCenterY(), 2));
-                    if (distance <= ball_radius + player_radius) {
+                    distance = Math.sqrt(Math.pow(ball.getCenterX() - player1.getCenterX(), 2) + Math.pow(ball.getCenterY() - player1.getCenterY(), 2));
+                    if (distance <= ball.getRadius() + PLAYER_RADIUS) {
                         // Adjust the player's position to be outside the ball
-                        player.setCenterY(ball.getCenterY() - ball_radius - player_radius);
+                        player1.setCenterY(ball.getCenterY() - ball.getRadius() - PLAYER_RADIUS);
                     }
                 }
 
                 // Check collision with player
-                distance = Math.sqrt(Math.pow(ball.getCenterX() - player.getCenterX(), 2) + Math.pow(ball.getCenterY() - player.getCenterY(), 2));
-                if (distance <= ball_radius + player_radius) {
+                distance = Math.sqrt(Math.pow(ball.getCenterX() - player1.getCenterX(), 2) + Math.pow(ball.getCenterY() - player1.getCenterY(), 2));
+                if (distance <= ball.getRadius() + PLAYER_RADIUS) {
                     // Player has hit the ball, update the ball's velocity
                     double pushFactor = 0.01; // Adjust this value to control how much the ball is pushed
-                    dx_ball += (ball.getCenterX() - player.getCenterX()) * pushFactor;
-                    dy_ball += (ball.getCenterY() - player.getCenterY()) * pushFactor;
+                    dx_ball += (ball.getCenterX() - player1.getCenterX()) * pushFactor;
+                    dy_ball += (ball.getCenterY() - player1.getCenterY()) * pushFactor;
                 }
                 double distance2 = Math.sqrt(Math.pow(ball.getCenterX() - player2.getCenterX(), 2) + Math.pow(ball.getCenterY() - player2.getCenterY(), 2));
-                if (distance2 <= ball_radius + player_radius) {
+                if (distance2 <= ball.getRadius() + PLAYER_RADIUS) {
                     // Player has hit the ball, update the ball's velocity
                     double pushFactor = 0.01; // Adjust this value to control how much the ball is pushed
                     dx_ball += (ball.getCenterX() - player2.getCenterX()) * pushFactor;
                     dy_ball += (ball.getCenterY() - player2.getCenterY()) * pushFactor;
                 }
 
-                if (isUpPressed) {
-                    dy -= 1;
+                dx = ((UserPlayerControlStrategy) player1.getControlStrategy()).getHorizontalSpeed();
+                dy = ((UserPlayerControlStrategy) player1.getControlStrategy()).getVerticalSpeed();
+                dx2 = ((UserPlayerControlStrategy) player2.getControlStrategy()).getHorizontalSpeed();
+                dy2 = ((UserPlayerControlStrategy) player2.getControlStrategy()).getVerticalSpeed();
 
-
-                }
-                if (isDownPressed) {
-                    dy += 1;
-
-
-                }
-                if (isLeftPressed) {
-                    dx -= 1;
-
-                }
-                if (isRightPressed) {
-                    dx += 1;
-
-
-                }
-
-                if (isZPressed) {
-                    dy2 -= 1;
-
-                }
-                if (isSPressed) {
-                    dy2 += 1;
-
-                }
-                if (isQPressed) {
-                    dx2 -= 1;
-
-
-                }
-                if (isDPressed) {
-                    dx2 += 1;
-                }
                 double length = Math.sqrt(dx * dx + dy * dy);
                 double length2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
                 if (length != 0) {
@@ -279,26 +181,10 @@ public class Main extends Application {
                     dy /= length;
                 }
 
-                double newX = player.getCenterX() + dx * speed;
-                double newY = player.getCenterY() + dy * speed;
+                player1.getControlStrategy().update(player1, ball);
+                player2.getControlStrategy().update(player2, ball);
+//                ball.getControlStrategy().update(player1, ball);
 
-                // Check for collisions with the field borders
-                if (newX - player_radius < field_x) {
-                    newX = field_x + player_radius;
-                } else if (newX + player_radius > field_width + field_x) {
-                    newX = field_x + field_width - player_radius;
-                }
-                if (newY - player_radius < field_y) {
-                    newY = field_y + player_radius;
-                } else if (newY + player_radius > field_height + field_y) {
-                    newY = field_y + field_height - player_radius;
-                }
-                player.setCenterX(player.getCenterX() + dx * speed);
-                player.setCenterY(player.getCenterY() + dy * speed);
-                player2.setCenterX(player2.getCenterX() + dx2 * speed);
-                player2.setCenterY(player2.getCenterY() + dy2 * speed);
-                ball.setCenterX(ball.getCenterX() + dx_ball * speed);
-                ball.setCenterY(ball.getCenterY() + dy_ball * speed);
             }
         }.start();
 

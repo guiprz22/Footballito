@@ -6,20 +6,25 @@ import javafx.scene.shape.Rectangle;
 
 public class BalleFactory implements ObjetJeuxFactory {
     private double ball_radius;
-
-    public BalleFactory(double ball_radius) {
+    private Color color;
+    private double x;
+    private double y;
+    public BalleFactory(double ball_radius, Color color, double x, double y) {
         this.ball_radius = ball_radius;
+        this.color = color;
+        this.x = x;
+        this.y = y;
     }
 
-    public Circle CréerBalle() {
-        return new Circle(ball_radius, Color.BLUEVIOLET);
+    public Ball createBalle() {
+        return new Ball(ball_radius, color, x, y);
     }
 
-    public Circle CréerJoueur() {
+    public Player createJoueur() {
         return null; // not used in this factory
     }
 
-    public Rectangle CréerTerrain() {
+    public Terrain createTerrain() {
         return null; // not used in this factory
     }
 }
