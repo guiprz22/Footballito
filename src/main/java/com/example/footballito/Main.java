@@ -3,17 +3,20 @@ package com.example.footballito;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
 
 public class Main extends Application {
+    private ScoreSingleton score = ScoreSingleton.getInstance();
     private double ball_radius = 18;
     private double player_radius = 25;
     private double field_width = 840;
@@ -21,8 +24,12 @@ public class Main extends Application {
     private double field_x = 40;
     private double field_y = 16;
     private double speed = 3;
-    private static final int WIDTH = 920;
-    private static final int HEIGHT = 576;
+    private static final int WIDTH = 1084;
+    private static final int HEIGHT = 752;
+    private static final int centreX =  460;
+
+    private static final int centreY =  238;
+
     private boolean isUpPressed = false;
     private boolean isDownPressed = false;
     private boolean isLeftPressed = false;
@@ -68,6 +75,17 @@ public class Main extends Application {
         ball.setCenterX(100);
         ball.setCenterY(100);
 
+        Label scoreLabelPlayer1 = new Label("0");
+        scoreLabelPlayer1.setTranslateX(487); // position x
+        scoreLabelPlayer1.setTranslateY(35); // position y
+        scoreLabelPlayer1.setFont(new Font(20));
+        scoreLabelPlayer1.setTextFill(Color.WHITE);
+
+        Label scoreLabelPlayer2 = new Label("0");
+        scoreLabelPlayer2.setTranslateX(582); // position x
+        scoreLabelPlayer2.setTranslateY(35); // position y
+        scoreLabelPlayer2.setFont(new Font(20));
+        scoreLabelPlayer2.setTextFill(Color.WHITE);
 
         // create a pane to hold the ball
         Pane pane = new Pane();
@@ -75,6 +93,8 @@ public class Main extends Application {
         pane.getChildren().add(player);
         pane.getChildren().add(player2);
         pane.getChildren().add(rectangle);
+        pane.getChildren().add(scoreLabelPlayer1);
+        pane.getChildren().add(scoreLabelPlayer2);
 
         // Create a StackPane as the root node
         StackPane root = new StackPane();
@@ -234,6 +254,19 @@ public class Main extends Application {
                     double pushFactor = 0.01; // Adjust this value to control how much the ball is pushed
                     dx_ball += (ball.getCenterX() - player2.getCenterX()) * pushFactor;
                     dy_ball += (ball.getCenterY() - player2.getCenterY()) * pushFactor;
+                }
+                if (ball.getCenterX() - ball_radius <= field_x) {
+                    // The ball hits the left edge of the field
+                    score.incrementScorePlayer2(scoreLabelPlayer2);
+                    ball.setCenterX(centreX);
+                    ball.setCenterY(centreY);
+                    dx_ball = -dx_ball;
+                } else if (ball.getCenterX() + ball_radius >= field_x + field_width) {
+                    // The ball hits the right edge of the field
+                    score.incrementScorePlayer1(scoreLabelPlayer1);
+                    ball.setCenterX(centreX);
+                    ball.setCenterY(centreY);
+                    dx_ball = -dx_ball;
                 }
 
                 if (isUpPressed) {
