@@ -8,9 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 
@@ -51,9 +51,7 @@ public class Main extends Application {
 
         LabelScoreFactory labelFactory2 = new LabelScoreFactory("0", 582, 35, 20, Color.WHITE);
         Label scoreLabelPlayer2 = labelFactory2.createLabelScore("scoreLabelPlayer2");
-
-
-
+        
         // Create objects
         Ball ball = balleFactory.createBalle();
         Player player1 = joueurFactory.createJoueur();
@@ -61,6 +59,13 @@ public class Main extends Application {
 
         // Create terrain using the factory
         Terrain terrain = terrainFactory.createTerrain();
+
+        boolean gameRunning = true;
+        File son = new File("musique/footTheme.mp3");
+        Media media = new Media(son.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setVolume(0.1);
 
         // Create a Pane to hold the objects
         Pane pane = new Pane();
@@ -102,6 +107,7 @@ public class Main extends Application {
             ((UserPlayerControlStrategy) player1.getControlStrategy()).setKeyPressed(code, false);
             ((UserPlayerControlStrategy) player2.getControlStrategy()).setKeyPressed(code, false);
         });
+
 
 
         // update the ball's position every frame
@@ -223,7 +229,7 @@ public class Main extends Application {
                 player1.getControlStrategy().update(player1, ball);
                 player2.getControlStrategy().update(player2, ball);
 //               ball.getControlStrategy().update(player1, ball);
-
+                mediaPlayer.play();
             }
         }.start();
 
