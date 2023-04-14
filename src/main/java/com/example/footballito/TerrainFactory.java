@@ -10,11 +10,17 @@ public class TerrainFactory implements ObjetJeuxFactory {
     private double fieldX;
     private double fieldY;
 
-    public TerrainFactory(double fieldWidth, double fieldHeight, double fieldX, double fieldY) {
+    private double goalWidth;
+
+    private  double goalHeight;
+
+    public TerrainFactory(double fieldWidth, double fieldHeight, double fieldX, double fieldY, double goalWidth, double goalHeight) {
         this.fieldWidth = fieldWidth;
         this.fieldHeight = fieldHeight;
         this.fieldX = fieldX;
         this.fieldY = fieldY;
+        this.goalWidth = goalWidth;
+        this.goalHeight = goalHeight;
     }
 
     public Ball createBalle() {
@@ -27,16 +33,7 @@ public class TerrainFactory implements ObjetJeuxFactory {
 
     public Terrain createTerrain() {
         Terrain terrain = new Terrain();
-        terrain.createTerrain(fieldWidth, fieldHeight, fieldX, fieldY);
-
-        double goalWidth = 10;
-        double goalHeight = 100;
-        double goalX1 = fieldX - goalWidth;
-        double goalY1 = fieldY + (fieldHeight - goalHeight) / 2;
-        double goalX2 = fieldY + fieldWidth;
-        double goalY2 = goalY1;
-        terrain.createGoal(goalWidth, goalHeight, goalX1, goalY1);
-        terrain.createGoal(goalWidth, goalHeight, goalX2, goalY2);
+        terrain.createTerrain(fieldWidth, fieldHeight, fieldX, fieldY, goalWidth, goalHeight);
 
         return terrain;
     }

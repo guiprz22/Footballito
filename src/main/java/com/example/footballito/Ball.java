@@ -1,15 +1,15 @@
 package com.example.footballito;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Ball extends Circle {
-    private Circle circle;
     private Color color;
     private double x;
     private double y;
 
     public Ball(double radius, Color color, double x, double y) {
-        this.circle = new Circle(radius, color);
+        super(radius, color);
         this.color = color;
         this.x = x;
         this.y = y;
@@ -17,8 +17,8 @@ public class Ball extends Circle {
     }
 
     private void updatePosition() {
-        this.circle.setCenterX(x);
-        this.circle.setCenterY(y);
+        this.setCenterX(x);
+        this.setCenterY(y);
     }
 
     public Color getColor() {
@@ -27,7 +27,7 @@ public class Ball extends Circle {
 
     public void setColor(Color color) {
         this.color = color;
-        this.circle.setFill(color);
+        this.setFill(color);
     }
 
     public double getX() {

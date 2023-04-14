@@ -5,14 +5,13 @@ import javafx.scene.shape.Circle;
 
 public class Player extends Circle {
     private PlayerControlStrategy controlStrategy;
-    private Circle circle;
     private double speed;
     private Color color;
     private double x;
     private double y;
 
     public Player(double radius, Color color, double speed, double x, double y) {
-        this.circle = new Circle(radius, color);
+        super(radius, color);
         this.color = color;
         this.speed = speed;
         this.x = x;
@@ -21,8 +20,8 @@ public class Player extends Circle {
     }
 
     private void updatePosition() {
-        this.circle.setCenterX(x);
-        this.circle.setCenterY(y);
+        this.setCenterX(x);
+        this.setCenterY(y);
     }
 
     public double getSpeed() {
@@ -39,7 +38,7 @@ public class Player extends Circle {
 
     public void setColor(Color color) {
         this.color = color;
-        this.circle.setFill(color);
+        this.setFill(color);
     }
 
     public double getX() {

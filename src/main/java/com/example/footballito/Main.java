@@ -3,11 +3,13 @@ package com.example.footballito;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -17,12 +19,14 @@ public class Main extends Application {
         private static final double PLAYER_RADIUS = 25;
         private static final double FIELD_WIDTH = 840;
         private static final double FIELD_HEIGHT = 544;
-        private static final double FIELD_X = 40;
-        private static final double FIELD_Y = 16;
+        private static final double GOAL_WIDTH = 45;
+        private static final double GOAL_HEIGHT = 150;
+        private static final double FIELD_X = 123;
+        private static final double FIELD_Y = 104;
         private static final double PLAYER_SPEED = 3;
-        private static final int WIDTH = 920;
-        private static final int HEIGHT = 576;
-
+        private static final int WIDTH = 1084;
+        private static final int HEIGHT = 752;
+        private ScoreSingleton score = ScoreSingleton.getInstance();
         private double dx = 0;
         private double dy = 0;
 
@@ -39,7 +43,20 @@ public class Main extends Application {
         ObjetJeuxFactory balleFactory = new BalleFactory(BALL_RADIUS, Color.YELLOW, 400, 400);
         ObjetJeuxFactory joueurFactory = new JoueurFactory(PLAYER_RADIUS, Color.RED, PLAYER_SPEED, 100, 200);
         ObjetJeuxFactory joueurFactory2 = new JoueurFactory(PLAYER_RADIUS, Color.BLUE, PLAYER_SPEED, 100, 400);
-        TerrainFactory terrainFactory = new TerrainFactory(FIELD_WIDTH, FIELD_HEIGHT, FIELD_X, FIELD_Y);
+        TerrainFactory terrainFactory = new TerrainFactory(FIELD_WIDTH, FIELD_HEIGHT, FIELD_X, FIELD_Y, GOAL_WIDTH, GOAL_HEIGHT);
+
+        Label scoreLabelPlayer1 = new Label("0");
+        scoreLabelPlayer1.setTranslateX(487); // position x
+        scoreLabelPlayer1.setTranslateY(35); // position y
+        scoreLabelPlayer1.setFont(new Font(20));
+        scoreLabelPlayer1.setTextFill(Color.WHITE);
+
+        Label scoreLabelPlayer2 = new Label("0");
+        scoreLabelPlayer2.setTranslateX(582); // position x
+        scoreLabelPlayer2.setTranslateY(35); // position y
+        scoreLabelPlayer2.setFont(new Font(20));
+        scoreLabelPlayer2.setTextFill(Color.WHITE);
+
 
         // Create objects
         Ball ball = balleFactory.createBalle();
@@ -49,24 +66,29 @@ public class Main extends Application {
         // Create terrain using the factory
         Terrain terrain = terrainFactory.createTerrain();
 
-        // create a pane to hold the objects
+        // Create a Pane to hold the objects
         Pane pane = new Pane();
 
+        // Set the background image of the terrain
+        terrain.setBackgroundImage(pane);
 
         pane.getChildren().add(ball);
         pane.getChildren().add(player1);
         pane.getChildren().add(player2);
+        pane.getChildren().add(scoreLabelPlayer1);
+        pane.getChildren().add(scoreLabelPlayer2);
+
         // Draw the terrain elements
-        terrain.drawElements(pane);
-            
+        terrain.drawLines(pane);
+
         // Create a StackPane as the root node
         StackPane root = new StackPane();
-        // Set the background image of the terrain
-        terrain.setBackgroundImage(root);
 
-        // create a scene with the root node
+        // Add the Pane with game elements to the StackPane
+        root.getChildren().add(pane);
+
+        // Create a Scene with the root node
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-
         // Create player1 with keys W, S, A, and D
         player1.setControlStrategy(new UserPlayerControlStrategy(KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D));
         player2.setControlStrategy(new UserPlayerControlStrategy(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT));
@@ -90,6 +112,8 @@ public class Main extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
+//                score.incrementScorePlayer1(scoreLabelPlayer1);
+//                score.incrementScorePlayer2(scoreLabelPlayer2);
                 // calculate the ball's new position based on the arrow key events
                 dx = 0;
                 dy = 0;

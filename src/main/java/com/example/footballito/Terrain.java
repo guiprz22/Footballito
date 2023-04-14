@@ -2,6 +2,9 @@ package com.example.footballito;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,18 +35,33 @@ public class Terrain {
         // Add field points
         points.add(new Point(fieldX, fieldY));
         points.add(new Point(fieldX + fieldWidth, fieldY));
-        points.add(new Point(fieldX + fieldWidth, fieldY + fieldHeight));
-        points.add(new Point(fieldX, fieldY + fieldHeight));
-
-        points.add(new Point(fieldX, fieldY + (fieldHeight - goalHeight) / 2.0));
-        points.add(new Point(fieldX - goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
-        points.add(new Point(fieldX - goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
-        points.add(new Point(fieldX, fieldY + (fieldHeight + goalHeight) / 2.0));
-
         points.add(new Point(fieldX + fieldWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
         points.add(new Point(fieldX + fieldWidth + goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
         points.add(new Point(fieldX + fieldWidth + goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
         points.add(new Point(fieldX + fieldWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
+        points.add(new Point(fieldX + fieldWidth, fieldY + fieldHeight));
+        points.add(new Point(fieldX, fieldY + fieldHeight));
+        points.add(new Point(fieldX, fieldY + (fieldHeight + goalHeight) / 2.0));
+        points.add(new Point(fieldX - goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
+        points.add(new Point(fieldX - goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
+        points.add(new Point(fieldX, fieldY + (fieldHeight - goalHeight) / 2.0));
+    }
+
+    public void drawLines(Pane pane) {
+        // Create a Polyline for the entire field and goals
+        Polyline polyline = new Polyline();
+
+        // Add all points to the polyline
+        for (Point p : points) {
+            polyline.getPoints().addAll(p.getX(), p.getY());
+        }
+
+        // Connect the last point to the first point to close the polyline
+        polyline.getPoints().addAll(points.get(0).getX(), points.get(0).getY());
+
+        // Set the stroke color and add the polyline to the pane
+        polyline.setStroke(Color.RED);
+        pane.getChildren().add(polyline);
     }
 
     public void setBackgroundImage(Pane root) {
