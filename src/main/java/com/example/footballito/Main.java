@@ -45,11 +45,14 @@ public class Main extends Application {
         ObjetJeuxFactory joueurFactory2 = new JoueurFactory(PLAYER_RADIUS, Color.BLUE, PLAYER_SPEED, 100, 400);
         TerrainFactory terrainFactory = new TerrainFactory(FIELD_WIDTH, FIELD_HEIGHT, FIELD_X, FIELD_Y, GOAL_WIDTH, GOAL_HEIGHT);
 
+
         LabelScoreFactory labelFactory1 = new LabelScoreFactory("0", 487, 35, 20, Color.WHITE);
         Label scoreLabelPlayer1 = labelFactory1.createLabelScore("scoreLabelPlayer1");
 
-        LabelScoreFactory labelFactory2 = new LabelScoreFactory("0", 600, 35, 20, Color.WHITE);
+        LabelScoreFactory labelFactory2 = new LabelScoreFactory("0", 582, 35, 20, Color.WHITE);
         Label scoreLabelPlayer2 = labelFactory2.createLabelScore("scoreLabelPlayer2");
+
+
 
         // Create objects
         Ball ball = balleFactory.createBalle();
