@@ -1,5 +1,6 @@
 package com.example.footballito;
 
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -27,4 +28,6 @@ public class BalleFactory implements ObjetJeuxFactory {
     public Terrain createTerrain() {
         return null; // not used in this factory
     }
+
+    public Label createLabelScore(String labelName){return null;}
 }

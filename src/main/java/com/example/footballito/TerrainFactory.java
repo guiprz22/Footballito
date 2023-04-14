@@ -1,5 +1,6 @@
 package com.example.footballito;
 
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -37,4 +38,5 @@ public class TerrainFactory implements ObjetJeuxFactory {
 
         return terrain;
     }
+    public Label createLabelScore(String labelName){return null;}
 }
