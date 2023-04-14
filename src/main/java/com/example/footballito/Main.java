@@ -105,8 +105,6 @@ public class Main extends Application {
                 // move the balle
                 balle.move();
 
-                // handle collisions between the balle and field boundaries
-
                 // handle collisions between the balle and players
                 handleCollisionWithPlayers(balle, player1, player2);
                 
@@ -140,7 +138,7 @@ public class Main extends Application {
             score.incrementScoreGauche(scoreLabelPlayer1);
             balle.setDx(-balle.getDx());
             resetRound(balle,player1,player2);
-        } else if (balle.getCenterX() + balle.getRadius() >= FIELD_X + FIELD_WIDTH+GOAL_WIDTH) {
+        } else if (balle.getCenterX() + balle.getRadius() > FIELD_X + FIELD_WIDTH+GOAL_WIDTH) {
 
             score.incrementScoreDroite(scoreLabelPlayer2);
             balle.setDx(-balle.getDx());
