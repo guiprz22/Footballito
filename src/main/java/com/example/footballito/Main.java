@@ -4,13 +4,12 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 
 import java.io.File;
 import java.util.List;
@@ -53,14 +52,6 @@ public class Main extends Application {
 
         // Create terrain using the factory
         Terrain terrain = terrainFactory.createTerrain();
-
-        File son = new File("musique/footTheme.mp3");
-        Media media = new Media(son.toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.setVolume(0.1);
-
-
         // Create a Pane to hold the objects
         Pane pane = new Pane();
 
@@ -123,7 +114,6 @@ public class Main extends Application {
                 handleCollisionWithFieldBoundaries(balle, terrain);
 
                 handleBallInGoals(balle,scoreLabelPlayer1,scoreLabelPlayer2,player1,player2);
-                mediaPlayer.play();
             }
         }.start();
 
