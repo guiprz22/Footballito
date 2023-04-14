@@ -40,7 +40,7 @@ public class Main extends Application {
         public void start(Stage stage) throws Exception {
 
         // Create factories
-        ObjetJeuxFactory balleFactory = new BalleFactory(BALL_RADIUS, Color.YELLOW, 400, 400);
+        ObjetJeuxFactory balleFactory = new BalleFactory(BALL_RADIUS, Color.YELLOW, WIDTH/2, HEIGHT/2);
         ObjetJeuxFactory joueurFactory = new JoueurFactory(PLAYER_RADIUS, Color.RED, PLAYER_SPEED, 100, 200);
         ObjetJeuxFactory joueurFactory2 = new JoueurFactory(PLAYER_RADIUS, Color.BLUE, PLAYER_SPEED, 100, 400);
         TerrainFactory terrainFactory = new TerrainFactory(FIELD_WIDTH, FIELD_HEIGHT, FIELD_X, FIELD_Y, GOAL_WIDTH, GOAL_HEIGHT);
@@ -191,6 +191,21 @@ public class Main extends Application {
                     double pushFactor = 0.01; // Adjust this value to control how much the ball is pushed
                     dx_ball += (ball.getCenterX() - player2.getCenterX()) * pushFactor;
                     dy_ball += (ball.getCenterY() - player2.getCenterY()) * pushFactor;
+                }
+
+
+                if (ball.getCenterX() - ball.getRadius() < FIELD_X - GOAL_WIDTH) {
+
+                    score.incrementScoreGauche(scoreLabelPlayer1);
+                    ball.setCenterX(WIDTH/2);
+                    ball.setCenterY(HEIGHT/2);
+                    dx_ball = -dx_ball;
+                } else if (ball.getCenterX() + ball.getRadius() >= FIELD_X + FIELD_WIDTH+GOAL_WIDTH) {
+
+                    score.incrementScoreDroite(scoreLabelPlayer2);
+                    ball.setCenterX(WIDTH/2);
+                    ball.setCenterY(HEIGHT/2);
+                    dx_ball = -dx_ball;
                 }
 
                 dx = ((UserPlayerControlStrategy) player1.getControlStrategy()).getHorizontalSpeed();

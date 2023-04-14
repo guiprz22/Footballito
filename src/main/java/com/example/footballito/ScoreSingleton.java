@@ -19,12 +19,12 @@ public class ScoreSingleton {
         return instance;
     }
 
-    public void incrementScorePlayer1(Label scoreLabelPlayer1) {
+    public void incrementScoreGauche(Label scoreLabelPlayer1) {
         scorePlayer1++;
         scoreLabelPlayer1.setText(Integer.toString(scorePlayer1));
     }
 
-    public void incrementScorePlayer2(Label scoreLabelPlayer2) {
+    public void incrementScoreDroite(Label scoreLabelPlayer2) {
         scorePlayer2++;
         scoreLabelPlayer2.setText(Integer.toString(scorePlayer2));
     }
