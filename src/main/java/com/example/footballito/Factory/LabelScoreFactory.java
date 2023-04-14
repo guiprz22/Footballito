@@ -1,4 +1,7 @@
-package com.example.footballito;
+package com.example.footballito.Factory;
+import com.example.footballito.Balle;
+import com.example.footballito.Joueur;
+import com.example.footballito.Terrain;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

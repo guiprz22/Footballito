@@ -1,5 +1,9 @@
-package com.example.footballito;
+package com.example.footballito.Factory;
 
+import com.example.footballito.Balle;
+import com.example.footballito.Factory.ObjetJeuxFactory;
+import com.example.footballito.Joueur;
+import com.example.footballito.Terrain;
 import javafx.scene.control.Label;
 
 public class TerrainFactory implements ObjetJeuxFactory {
@@ -30,8 +34,8 @@ public class TerrainFactory implements ObjetJeuxFactory {
     }
 
     public Terrain createTerrain() {
-        Terrain terrain = new Terrain();
-        terrain.createTerrain(fieldWidth, fieldHeight, fieldX, fieldY, goalWidth, goalHeight);
+        Terrain terrain = new Terrain(fieldWidth, fieldHeight, fieldX, fieldY, goalWidth, goalHeight);
+        terrain.createTerrain();
 
         return terrain;
     }

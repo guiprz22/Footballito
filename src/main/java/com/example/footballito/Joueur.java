@@ -1,5 +1,6 @@
 package com.example.footballito;
 
+import com.example.footballito.Strategy.JoueurControlStrategy;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 

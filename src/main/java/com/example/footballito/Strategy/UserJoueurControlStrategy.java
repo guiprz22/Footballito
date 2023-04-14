@@ -1,5 +1,7 @@
-package com.example.footballito;
+package com.example.footballito.Strategy;
 
+import com.example.footballito.Joueur;
+import com.example.footballito.Strategy.JoueurControlStrategy;
 import javafx.scene.input.KeyCode;
 
 import java.util.HashMap;

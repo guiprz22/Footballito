@@ -21,8 +21,14 @@ public class Terrain {
     private double goalHeight;
 
 
-    public Terrain() {
+    public Terrain(double fieldWidth,double fieldHeight,double fieldX,double fieldY,double goalWidth,double goalHeight) {
         points = new ArrayList<>();
+        this.fieldWidth = fieldWidth;
+        this.fieldHeight =fieldHeight;
+        this.fieldX =fieldX;
+        this.fieldY =fieldY;
+        this.goalWidth =goalWidth;
+        this.goalHeight =goalHeight;
     }
 
     public void addPoint(double x, double y) {
@@ -39,8 +45,10 @@ public class Terrain {
 
 
     // Create field and goals using points
-    public void createTerrain(double fieldWidth, double fieldHeight, double fieldX, double fieldY, double goalWidth, double goalHeight) {
+    public void createTerrain() {
+
         // Add field points
+
         addPoint(fieldX, fieldY);
         addPoint(fieldX + fieldWidth, fieldY);
         addPoint(fieldX + fieldWidth, fieldY + (fieldHeight - goalHeight) / 2.0);

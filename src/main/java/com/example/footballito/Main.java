@@ -1,5 +1,8 @@
 package com.example.footballito;
 
+import com.example.footballito.Factory.*;
+import com.example.footballito.Singleton.ScoreSingleton;
+import com.example.footballito.Strategy.UserJoueurControlStrategy;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -69,7 +72,7 @@ public class Main extends Application {
         pane.getChildren().add(scoreLabeljoueur2);
 
         // Dessine les éléments du terrain
-        terrain.drawLines(pane);
+//        terrain.drawLines(pane);
 
         // Crée un StackPane
         StackPane root = new StackPane();

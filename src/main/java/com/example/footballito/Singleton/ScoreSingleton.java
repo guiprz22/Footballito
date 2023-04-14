@@ -1,4 +1,4 @@
-package com.example.footballito;
+package com.example.footballito.Singleton;
 
 import javafx.scene.control.Label;
 
