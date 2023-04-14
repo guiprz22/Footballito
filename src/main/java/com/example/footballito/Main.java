@@ -104,13 +104,9 @@ public class Main extends Application {
 
         // update the balle's position every frame
         new AnimationTimer() {
-            int i = 0;
+
             @Override
             public void handle(long now) {
-                i++;
-                if (i == 1000){
-                    resetRound(balle, player1, player2);
-                }
                 // move players
                 player1.getControlStrategy().update(player1);
                 player2.getControlStrategy().update(player2);
@@ -126,6 +122,7 @@ public class Main extends Application {
                 // Handle collisions between the ball and field boundaries
                 handleCollisionWithFieldBoundaries(balle, terrain);
 
+                handleBallInGoals(balle,scoreLabelPlayer1,scoreLabelPlayer2,player1,player2);
                 mediaPlayer.play();
             }
         }.start();
@@ -147,7 +144,20 @@ public class Main extends Application {
 
         balle.resetSpawn();
     }
+    private void handleBallInGoals(Balle balle,Label scoreLabelPlayer1,Label scoreLabelPlayer2,Player player1, Player player2){
+        if (balle.getCenterX() - balle.getRadius() < FIELD_X - GOAL_WIDTH) {
 
+            score.incrementScoreGauche(scoreLabelPlayer1);
+            balle.setDx(-balle.getDx());
+            resetRound(balle,player1,player2);
+        } else if (balle.getCenterX() + balle.getRadius() >= FIELD_X + FIELD_WIDTH+GOAL_WIDTH) {
+
+            score.incrementScoreDroite(scoreLabelPlayer2);
+            balle.setDx(-balle.getDx());
+            resetRound(balle,player1,player2);
+        }
+
+    }
     private void handleCollisionWithPlayers(Balle balle, Player player1, Player player2) {
         double distance = Math.sqrt(Math.pow(balle.getCenterX() - player1.getCenterX(), 2) + Math.pow(balle.getCenterY() - player1.getCenterY(), 2));
         if (distance <= balle.getRadius() + player1.getRadius()) {
