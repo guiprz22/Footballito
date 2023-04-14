@@ -24,7 +24,7 @@ public class TerrainFactory implements ObjetJeuxFactory {
         this.goalHeight = goalHeight;
     }
 
-    public Ball createBalle() {
+    public Balle createBalle() {
         return null; // not used in this factory
     }
 

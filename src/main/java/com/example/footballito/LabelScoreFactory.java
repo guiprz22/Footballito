@@ -18,7 +18,7 @@ public class LabelScoreFactory implements ObjetJeuxFactory {
        this.fontSize = fontSize;
        this.color = color;
     }
-    public Ball createBalle() {
+    public Balle createBalle() {
         return null;
 
     }

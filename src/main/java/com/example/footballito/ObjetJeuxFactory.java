@@ -5,7 +5,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public interface ObjetJeuxFactory {
-    Ball createBalle();
+    Balle createBalle();
     Player createJoueur();
     Terrain createTerrain();
 

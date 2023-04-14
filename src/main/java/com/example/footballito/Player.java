@@ -3,8 +3,12 @@ package com.example.footballito;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player extends Circle {
     private PlayerControlStrategy controlStrategy;
+    private Point spawn_point;
     private double speed;
     private Color color;
     private double x;
@@ -16,6 +20,7 @@ public class Player extends Circle {
         this.speed = speed;
         this.x = x;
         this.y = y;
+        this.spawn_point = new Point(x, y);
         updatePosition();
     }
 
@@ -26,6 +31,12 @@ public class Player extends Circle {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public void resetSpawn(){
+        this.x = this.spawn_point.getX();
+        this.y = this.spawn_point.getY();
+        updatePosition();
     }
 
     public void setSpeed(double speed) {
@@ -68,9 +79,9 @@ public class Player extends Circle {
         return controlStrategy;
     }
 
-    public void update(Ball ball) {
+    public void update(Balle balle) {
         if (controlStrategy != null) {
-            controlStrategy.update(this, ball);
+            controlStrategy.update(this);
         }
     }
 }

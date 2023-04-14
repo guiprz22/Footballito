@@ -20,7 +20,7 @@ public class JoueurFactory implements ObjetJeuxFactory {
         this.y = y;
     }
 
-    public Ball createBalle() {
+    public Balle createBalle() {
         return null; // not used in this factory
     }
 

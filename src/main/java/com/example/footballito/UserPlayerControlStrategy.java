@@ -48,7 +48,7 @@ public class UserPlayerControlStrategy implements PlayerControlStrategy {
     }
 
     @Override
-    public void update(Player player, Ball ball) {
+    public void update(Player player) {
         if (keyPressedMap.get(up)) {
             player.setY(player.getY() - player.getSpeed());
         }
