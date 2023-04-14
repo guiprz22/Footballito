@@ -3,18 +3,15 @@ package com.example.footballito;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Player extends Circle {
-    private PlayerControlStrategy controlStrategy;
+public class Joueur extends Circle {
+    private JoueurControlStrategy controlStrategy;
     private Point spawn_point;
     private double speed;
     private Color color;
     private double x;
     private double y;
 
-    public Player(double radius, Color color, double speed, double x, double y) {
+    public Joueur(double radius, Color color, double speed, double x, double y) {
         super(radius, color);
         this.color = color;
         this.speed = speed;
@@ -28,15 +25,22 @@ public class Player extends Circle {
         this.setCenterX(x);
         this.setCenterY(y);
     }
-
-    public double getSpeed() {
-        return speed;
-    }
-
     public void resetSpawn(){
         this.x = this.spawn_point.getX();
         this.y = this.spawn_point.getY();
         updatePosition();
+    }
+    public void setControlStrategy(JoueurControlStrategy controlStrategy) {
+        this.controlStrategy = controlStrategy;
+    }
+
+    // Add the getControlStrategy() method
+    public JoueurControlStrategy getControlStrategy() {
+        return controlStrategy;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     public void setSpeed(double speed) {
@@ -70,18 +74,5 @@ public class Player extends Circle {
         updatePosition();
     }
 
-    public void setControlStrategy(PlayerControlStrategy controlStrategy) {
-        this.controlStrategy = controlStrategy;
-    }
 
-    // Add the getControlStrategy() method
-    public PlayerControlStrategy getControlStrategy() {
-        return controlStrategy;
-    }
-
-    public void update(Balle balle) {
-        if (controlStrategy != null) {
-            controlStrategy.update(this);
-        }
-    }
 }

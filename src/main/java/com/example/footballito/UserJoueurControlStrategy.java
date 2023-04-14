@@ -1,19 +1,18 @@
 package com.example.footballito;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Circle;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserPlayerControlStrategy implements PlayerControlStrategy {
+public class UserJoueurControlStrategy implements JoueurControlStrategy {
     private KeyCode up;
     private KeyCode down;
     private KeyCode left;
     private KeyCode right;
     private Map<KeyCode, Boolean> keyPressedMap = new HashMap<>();
 
-    public UserPlayerControlStrategy(KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
+    public UserJoueurControlStrategy(KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
         this.up = up;
         this.down = down;
         this.left = left;
@@ -48,18 +47,18 @@ public class UserPlayerControlStrategy implements PlayerControlStrategy {
     }
 
     @Override
-    public void update(Player player) {
+    public void update(Joueur joueur) {
         if (keyPressedMap.get(up)) {
-            player.setY(player.getY() - player.getSpeed());
+            joueur.setY(joueur.getY() - joueur.getSpeed());
         }
         if (keyPressedMap.get(down)) {
-            player.setY(player.getY() + player.getSpeed());
+            joueur.setY(joueur.getY() + joueur.getSpeed());
         }
         if (keyPressedMap.get(left)) {
-            player.setX(player.getX() - player.getSpeed());
+            joueur.setX(joueur.getX() - joueur.getSpeed());
         }
         if (keyPressedMap.get(right)) {
-            player.setX(player.getX() + player.getSpeed());
+            joueur.setX(joueur.getX() + joueur.getSpeed());
         }
     }
 

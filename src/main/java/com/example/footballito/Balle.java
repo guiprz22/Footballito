@@ -24,6 +24,13 @@ public class Balle extends Circle {
         this.friction = 0.05;
         updatePosition();
     }
+    public void resetSpawn(){
+        this.x = this.spawn_point.getX();
+        this.y = this.spawn_point.getY();
+        this.dx = 0;
+        this.dy = 0;
+        updatePosition();
+    }
 
     public void applyBalleFriction() {
         if (dx > 0) {
@@ -93,9 +100,5 @@ public class Balle extends Circle {
         this.dy = dy;
     }
 
-    public void resetSpawn(){
-        this.x = this.spawn_point.getX();
-        this.y = this.spawn_point.getY();
-        updatePosition();
-    }
+
 }

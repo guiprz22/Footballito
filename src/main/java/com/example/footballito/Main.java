@@ -15,107 +15,112 @@ import java.io.File;
 import java.util.List;
 
 public class Main extends Application {
-        private static final double BALL_RADIUS = 18;
-        private static final double PLAYER_RADIUS = 25;
-        private static final double FIELD_WIDTH = 840;
-        private static final double FIELD_HEIGHT = 544;
-        private static final double GOAL_WIDTH = 45;
-        private static final double GOAL_HEIGHT = 150;
-        private static final double FIELD_X = 123;
-        private static final double FIELD_Y = 104;
-        private static final double PLAYER_SPEED = 3;
-        private static final int WIDTH = 1084;
-        private static final int HEIGHT = 752;
+    // Définition de certaines constantes pour la taille des objets et les vitesses de mouvement
+    private static final double BALL_RADIUS = 18;
+    private static final double PLAYER_RADIUS = 25;
+    private static final double FIELD_WIDTH = 840;
+    private static final double FIELD_HEIGHT = 544;
+    private static final double GOAL_WIDTH = 45;
+    private static final double GOAL_HEIGHT = 150;
+    private static final double FIELD_X = 123;
+    private static final double FIELD_Y = 104;
+    private static final double PLAYER_SPEED = 3;
+    private static final int WIDTH = 1084;
+    private static final int HEIGHT = 752;
 
-        private ScoreSingleton score = ScoreSingleton.getInstance();
+    // Création d'une instance de ScoreSingleton pour suivre le score
+    private ScoreSingleton score = ScoreSingleton.getInstance();
 
-        @Override
-        public void start(Stage stage) throws Exception {
+    @Override
+    public void start(Stage stage) throws Exception {
 
-        // Create factories
+        // Création des factories pour chaque type d'objet
         ObjetJeuxFactory balleFactory = new BalleFactory(BALL_RADIUS, Color.YELLOW, WIDTH/2, HEIGHT/2);
         ObjetJeuxFactory joueurFactory = new JoueurFactory(PLAYER_RADIUS, Color.RED, PLAYER_SPEED, WIDTH/5, HEIGHT/2);
         ObjetJeuxFactory joueurFactory2 = new JoueurFactory(PLAYER_RADIUS, Color.BLUE, PLAYER_SPEED, WIDTH-WIDTH/5, HEIGHT/2);
         TerrainFactory terrainFactory = new TerrainFactory(FIELD_WIDTH, FIELD_HEIGHT, FIELD_X, FIELD_Y, GOAL_WIDTH, GOAL_HEIGHT);
 
+        // Création des labels pour afficher le score
         LabelScoreFactory labelFactory1 = new LabelScoreFactory("0", 487, 35, 20, Color.WHITE);
-        Label scoreLabelPlayer1 = labelFactory1.createLabelScore("scoreLabelPlayer1");
+        Label scoreLabeljoueur1 = labelFactory1.createLabelScore("scoreLabeljoueur1");
 
         LabelScoreFactory labelFactory2 = new LabelScoreFactory("0", 582, 35, 20, Color.WHITE);
-        Label scoreLabelPlayer2 = labelFactory2.createLabelScore("scoreLabelPlayer2");
+        Label scoreLabeljoueur2 = labelFactory2.createLabelScore("scoreLabeljoueur2");
 
-
-        // Create objects
+        // Création des objets en utilisant les factories
         Balle balle = balleFactory.createBalle();
-        Player player1 = joueurFactory.createJoueur();
-        Player player2 = joueurFactory2.createJoueur();
+        Joueur joueur1 = joueurFactory.createJoueur();
+        Joueur joueur2 = joueurFactory2.createJoueur();
 
-        // Create terrain using the factory
+        // Création du terrain en utilisant la factory
         Terrain terrain = terrainFactory.createTerrain();
-        // Create a Pane to hold the objects
+
+        // Création d'un Pane pour contenir les objets du jeu
         Pane pane = new Pane();
 
-        // Set the background image of the terrain
+        // Configuration de l'image de fond du terrain
         terrain.setBackgroundImage(pane);
 
+        // Ajout des objets dans le Pane
         pane.getChildren().add(balle);
-        pane.getChildren().add(player1);
-        pane.getChildren().add(player2);
-        pane.getChildren().add(scoreLabelPlayer1);
-        pane.getChildren().add(scoreLabelPlayer2);
+        pane.getChildren().add(joueur1);
+        pane.getChildren().add(joueur2);
+        pane.getChildren().add(scoreLabeljoueur1);
+        pane.getChildren().add(scoreLabeljoueur2);
 
-        // Draw the terrain elements
+        // Dessine les éléments du terrain
         terrain.drawLines(pane);
 
-        // Create a StackPane as the root nodez
+        // Crée un StackPane
         StackPane root = new StackPane();
 
-        // Add the Pane with game elements to the StackPane
+        // Ajoute le Pane avec les éléments du jeu au StackPane
         root.getChildren().add(pane);
 
-        // Create a Scene with the root node
+        // Crée une Scene
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-        // Create player1 with keys W, S, A, and D
-        player1.setControlStrategy(new UserPlayerControlStrategy(KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D));
-        player2.setControlStrategy(new UserPlayerControlStrategy(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT));
+        // Crée joueur1 avec les touches Z, S, Q et D
+        joueur1.setControlStrategy(new UserJoueurControlStrategy(KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D));
+        joueur2.setControlStrategy(new UserJoueurControlStrategy(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT));
 
-
+        // Gère l'appui sur une touche
         scene.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
-            ((UserPlayerControlStrategy) player1.getControlStrategy()).setKeyPressed(code, true);
-            ((UserPlayerControlStrategy) player2.getControlStrategy()).setKeyPressed(code, true);
+            ((UserJoueurControlStrategy) joueur1.getControlStrategy()).setKeyPressed(code, true);
+            ((UserJoueurControlStrategy) joueur2.getControlStrategy()).setKeyPressed(code, true);
         });
 
-
+        // Gère le relâchement d'une touche
         scene.setOnKeyReleased(event -> {
             KeyCode code = event.getCode();
-            ((UserPlayerControlStrategy) player1.getControlStrategy()).setKeyPressed(code, false);
-            ((UserPlayerControlStrategy) player2.getControlStrategy()).setKeyPressed(code, false);
+            ((UserJoueurControlStrategy) joueur1.getControlStrategy()).setKeyPressed(code, false);
+            ((UserJoueurControlStrategy) joueur2.getControlStrategy()).setKeyPressed(code, false);
         });
 
-        // update the balle's position every frame
+        // Met à jour la position de la balle à chaque frame
         new AnimationTimer() {
 
             @Override
             public void handle(long now) {
-                // move players
-                player1.getControlStrategy().update(player1);
-                player2.getControlStrategy().update(player2);
+                // Déplace les joueurs
+                joueur1.getControlStrategy().update(joueur1);
+                joueur2.getControlStrategy().update(joueur2);
 
-                // move the balle
+                // Déplace la balle
                 balle.move();
 
-                // handle collisions between the balle and players
-                handleCollisionWithPlayers(balle, player1, player2);
-                
-                // Handle collisions between the ball and field boundaries
-                handleCollisionWithFieldBoundaries(balle, terrain);
+                // Gère les collisions entre la balle et les joueurs
+                handleCollisionAvecJoueurs(balle, joueur1, joueur2);
 
-                handleBallInGoals(balle,scoreLabelPlayer1,scoreLabelPlayer2,player1,player2);
+                // Gère les collisions entre la balle et les limites du terrain
+                handleCollisionAvecBorduresTerrain(balle, terrain);
+
+                // Gère la balle quand un joueur marque
+                handleBallInGoals(balle,scoreLabeljoueur1,scoreLabeljoueur2,joueur1,joueur2,terrain);
             }
         }.start();
 
-        // show the stage
+        // Affiche la fenêtre
 
         stage.setScene(scene);
         stage.setResizable(false);
@@ -126,44 +131,50 @@ public class Main extends Application {
         stage.show();
     }
 
-    private void resetRound(Balle balle, Player player1, Player player2){
-        player1.resetSpawn();
-        player2.resetSpawn();
+    private void resetRound(Balle balle, Joueur joueur1, Joueur joueur2){
+        joueur1.resetSpawn();
+        joueur2.resetSpawn();
 
         balle.resetSpawn();
     }
-    private void handleBallInGoals(Balle balle,Label scoreLabelPlayer1,Label scoreLabelPlayer2,Player player1, Player player2){
-        if (balle.getCenterX() - balle.getRadius() < FIELD_X - GOAL_WIDTH) {
+    private boolean isBallInsideGoal(Balle balle, Terrain terrain) {
+        List<Point> points = terrain.getPoints();
+        double leftGoalX = points.get(0).getX();
+        double rightGoalX = points.get(1).getX();
 
-            score.incrementScoreGauche(scoreLabelPlayer1);
-            balle.setDx(-balle.getDx());
-            resetRound(balle,player1,player2);
-        } else if (balle.getCenterX() + balle.getRadius() > FIELD_X + FIELD_WIDTH+GOAL_WIDTH) {
+        boolean insideLeftGoal = balle.getCenterX() <= leftGoalX - balle.getRadius();
+        boolean insideRightGoal = balle.getCenterX() >= rightGoalX + balle.getRadius();
 
-            score.incrementScoreDroite(scoreLabelPlayer2);
-            balle.setDx(-balle.getDx());
-            resetRound(balle,player1,player2);
-        }
-
+        return insideLeftGoal || insideRightGoal;
     }
-    private void handleCollisionWithPlayers(Balle balle, Player player1, Player player2) {
-        double distance = Math.sqrt(Math.pow(balle.getCenterX() - player1.getCenterX(), 2) + Math.pow(balle.getCenterY() - player1.getCenterY(), 2));
-        if (distance <= balle.getRadius() + player1.getRadius()) {
-            double pushFactor = 0.01;
-            balle.setDx(balle.getDx() + (balle.getCenterX() - player1.getCenterX()) * pushFactor);
-            balle.setDy(balle.getDy() + (balle.getCenterY() - player1.getCenterY()) * pushFactor);
-        }
-
-        double distance2 = Math.sqrt(Math.pow(balle.getCenterX() - player2.getCenterX(), 2) + Math.pow(balle.getCenterY() - player2.getCenterY(), 2));
-        if (distance2 <= balle.getRadius() + player2.getRadius()) {
-            double pushFactor = 0.01;
-            balle.setDx(balle.getDx() + (balle.getCenterX() - player2.getCenterX()) * pushFactor);
-            balle.setDy(balle.getDy() + (balle.getCenterY() - player2.getCenterY()) * pushFactor);
+    private void handleBallInGoals(Balle balle, Label scoreLabelPlayer1, Label scoreLabelPlayer2, Joueur joueur1, Joueur joueur2, Terrain terrain) {
+        if (isBallInsideGoal(balle, terrain)) {
+            if (balle.getCenterX() < terrain.getFieldWidth() / 2) {
+                score.incrementScoreGauche(scoreLabelPlayer1);
+            } else {
+                score.incrementScoreDroite(scoreLabelPlayer2);
+            }
+            resetRound(balle, joueur1, joueur2);
         }
     }
+    private void handleCollisionAvecJoueurs(Balle balle, Joueur joueur1, Joueur joueur2) {
+        double distance = Math.sqrt(Math.pow(balle.getCenterX() - joueur1.getCenterX(), 2) + Math.pow(balle.getCenterY() - joueur1.getCenterY(), 2));
+        if (distance <= balle.getRadius() + joueur1.getRadius()) {
+            double pushFactor = 0.01;
+            balle.setDx(balle.getDx() + (balle.getCenterX() - joueur1.getCenterX()) * pushFactor);
+            balle.setDy(balle.getDy() + (balle.getCenterY() - joueur1.getCenterY()) * pushFactor);
+        }
+
+        double distance2 = Math.sqrt(Math.pow(balle.getCenterX() - joueur2.getCenterX(), 2) + Math.pow(balle.getCenterY() - joueur2.getCenterY(), 2));
+        if (distance2 <= balle.getRadius() + joueur2.getRadius()) {
+            double pushFactor = 0.01;
+            balle.setDx(balle.getDx() + (balle.getCenterX() - joueur2.getCenterX()) * pushFactor);
+            balle.setDy(balle.getDy() + (balle.getCenterY() - joueur2.getCenterY()) * pushFactor);
+        }
+    }
 
 
-    private void handleCollisionWithFieldBoundaries(Balle balle, Terrain terrain) {
+    private void handleCollisionAvecBorduresTerrain(Balle balle, Terrain terrain) {
         List<Point> points = terrain.getPoints();
         double goalYTop = points.get(2).getY();
         double goalYBottom = points.get(4).getY();

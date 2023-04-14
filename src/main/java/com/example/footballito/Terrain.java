@@ -13,11 +13,19 @@ import java.util.List;
 public class Terrain {
     private List<Point> points;
 
+    private double fieldWidth;
+    private double fieldHeight;
+    private double fieldX;
+    private double fieldY;
+    private double goalWidth;
+    private double goalHeight;
+
+
     public Terrain() {
         points = new ArrayList<>();
     }
 
-    public void addPoint(int x, int y) {
+    public void addPoint(double x, double y) {
         points.add(new Point(x, y));
     }
 
@@ -33,18 +41,18 @@ public class Terrain {
     // Create field and goals using points
     public void createTerrain(double fieldWidth, double fieldHeight, double fieldX, double fieldY, double goalWidth, double goalHeight) {
         // Add field points
-        points.add(new Point(fieldX, fieldY));
-        points.add(new Point(fieldX + fieldWidth, fieldY));
-        points.add(new Point(fieldX + fieldWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
-        points.add(new Point(fieldX + fieldWidth + goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
-        points.add(new Point(fieldX + fieldWidth + goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
-        points.add(new Point(fieldX + fieldWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
-        points.add(new Point(fieldX + fieldWidth, fieldY + fieldHeight));
-        points.add(new Point(fieldX, fieldY + fieldHeight));
-        points.add(new Point(fieldX, fieldY + (fieldHeight + goalHeight) / 2.0));
-        points.add(new Point(fieldX - goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0));
-        points.add(new Point(fieldX - goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0));
-        points.add(new Point(fieldX, fieldY + (fieldHeight - goalHeight) / 2.0));
+        addPoint(fieldX, fieldY);
+        addPoint(fieldX + fieldWidth, fieldY);
+        addPoint(fieldX + fieldWidth, fieldY + (fieldHeight - goalHeight) / 2.0);
+        addPoint(fieldX + fieldWidth + goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0);
+        addPoint(fieldX + fieldWidth + goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0);
+        addPoint(fieldX + fieldWidth, fieldY + (fieldHeight + goalHeight) / 2.0);
+        addPoint(fieldX + fieldWidth, fieldY + fieldHeight);
+        addPoint(fieldX, fieldY + fieldHeight);
+        addPoint(fieldX, fieldY + (fieldHeight + goalHeight) / 2.0);
+        addPoint(fieldX - goalWidth, fieldY + (fieldHeight + goalHeight) / 2.0);
+        addPoint(fieldX - goalWidth, fieldY + (fieldHeight - goalHeight) / 2.0);
+        addPoint(fieldX, fieldY + (fieldHeight - goalHeight) / 2.0);
     }
 
     public void drawLines(Pane pane) {
@@ -74,4 +82,51 @@ public class Terrain {
         }
     }
 
+    public double getFieldWidth() {
+        return fieldWidth;
+    }
+
+    public void setFieldWidth(double fieldWidth) {
+        this.fieldWidth = fieldWidth;
+    }
+
+    public double getFieldHeight() {
+        return fieldHeight;
+    }
+
+    public void setFieldHeight(double fieldHeight) {
+        this.fieldHeight = fieldHeight;
+    }
+
+    public double getFieldX() {
+        return fieldX;
+    }
+
+    public void setFieldX(double fieldX) {
+        this.fieldX = fieldX;
+    }
+
+    public double getFieldY() {
+        return fieldY;
+    }
+
+    public void setFieldY(double fieldY) {
+        this.fieldY = fieldY;
+    }
+
+    public double getGoalWidth() {
+        return goalWidth;
+    }
+
+    public void setGoalWidth(double goalWidth) {
+        this.goalWidth = goalWidth;
+    }
+
+    public double getGoalHeight() {
+        return goalHeight;
+    }
+
+    public void setGoalHeight(double goalHeight) {
+        this.goalHeight = goalHeight;
+    }
 }

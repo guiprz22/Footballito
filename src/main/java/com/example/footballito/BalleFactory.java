@@ -2,8 +2,6 @@ package com.example.footballito;
 
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class BalleFactory implements ObjetJeuxFactory {
     private double balle_radius;
@@ -21,7 +19,7 @@ public class BalleFactory implements ObjetJeuxFactory {
         return new Balle(balle_radius, color, x, y);
     }
 
-    public Player createJoueur() {
+    public Joueur createJoueur() {
         return null; // not used in this factory
     }
 

@@ -22,7 +22,7 @@ public class LabelScoreFactory implements ObjetJeuxFactory {
         return null;
 
     }
-    public Player createJoueur() {
+    public Joueur createJoueur() {
         return null;
     }
 

@@ -2,8 +2,6 @@ package com.example.footballito;
 
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class JoueurFactory implements ObjetJeuxFactory {
     private double joueur_radius;
@@ -24,8 +22,8 @@ public class JoueurFactory implements ObjetJeuxFactory {
         return null; // not used in this factory
     }
 
-    public Player createJoueur() {
-        return new Player(joueur_radius, joueur_color, joueur_speed, x, y);
+    public Joueur createJoueur() {
+        return new Joueur(joueur_radius, joueur_color, joueur_speed, x, y);
     }
 
     public Terrain createTerrain() {
