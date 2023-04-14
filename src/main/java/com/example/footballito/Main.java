@@ -204,10 +204,14 @@ public class Main extends Application {
                     dx /= length;
                     dy /= length;
                 }
+                if (length2 != 0) {
+                    dx2 /= length;
+                    dy2 /= length;
+                }
 
                 player1.getControlStrategy().update(player1, ball);
                 player2.getControlStrategy().update(player2, ball);
-//                ball.getControlStrategy().update(player1, ball);
+//               ball.getControlStrategy().update(player1, ball);
 
             }
         }.start();
@@ -216,6 +220,10 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.setTitle("Footballito");
+        File fileIcon = new File("image/logo.png");
+        Image icon = new Image(fileIcon.toURI().toString());
+        stage.getIcons().add(icon);
         stage.show();
     }
 
