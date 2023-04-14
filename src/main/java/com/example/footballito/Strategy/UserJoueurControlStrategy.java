@@ -12,6 +12,7 @@ public class UserJoueurControlStrategy implements JoueurControlStrategy {
     private KeyCode down;
     private KeyCode left;
     private KeyCode right;
+    // Une HashMap pour stocker l'état des touches (enfoncée ou relâchée)
     private Map<KeyCode, Boolean> keyPressedMap = new HashMap<>();
 
     public UserJoueurControlStrategy(KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
@@ -26,6 +27,7 @@ public class UserJoueurControlStrategy implements JoueurControlStrategy {
         keyPressedMap.put(right, false);
     }
 
+    // Retourne la vitesse horizontale en fonction des touches enfoncées
     public double getHorizontalSpeed() {
         double speed = 0;
         if (keyPressedMap.get(left)) {
@@ -37,6 +39,7 @@ public class UserJoueurControlStrategy implements JoueurControlStrategy {
         return speed;
     }
 
+    // Retourne la vitesse verticale en fonction des touches enfoncées
     public double getVerticalSpeed() {
         double speed = 0;
         if (keyPressedMap.get(up)) {
@@ -48,6 +51,7 @@ public class UserJoueurControlStrategy implements JoueurControlStrategy {
         return speed;
     }
 
+    // Implémentation de la méthode update de JoueurControlStrategy pour gérer les déplacements
     @Override
     public void update(Joueur joueur) {
         if (keyPressedMap.get(up)) {
@@ -64,6 +68,7 @@ public class UserJoueurControlStrategy implements JoueurControlStrategy {
         }
     }
 
+    // Méthode pour mettre à jour l'état d'une touche dans la HashMap
     public void setKeyPressed(KeyCode code, boolean isPressed) {
         if (keyPressedMap.containsKey(code)) {
             keyPressedMap.put(code, isPressed);

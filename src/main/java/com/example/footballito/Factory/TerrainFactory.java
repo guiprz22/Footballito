@@ -16,6 +16,7 @@ public class TerrainFactory implements ObjetJeuxFactory {
 
     private  double goalHeight;
 
+    // Constructeur qui initialise les attributs de la factory avec les paramètres donnés
     public TerrainFactory(double fieldWidth, double fieldHeight, double fieldX, double fieldY, double goalWidth, double goalHeight) {
         this.fieldWidth = fieldWidth;
         this.fieldHeight = fieldHeight;
@@ -25,19 +26,26 @@ public class TerrainFactory implements ObjetJeuxFactory {
         this.goalHeight = goalHeight;
     }
 
+    // La méthode createBalle n'est pas utilisée dans cette factory
     public Balle createBalle() {
-        return null; // not used in this factory
+        return null;
     }
 
+    // La méthode createJoueur n'est pas utilisée dans cette factory
     public Joueur createJoueur() {
-        return null; // not used in this factory
+        return null;
     }
 
+    // Crée une nouvelle instance de Terrain avec les paramètres donnés et génère les points du terrain
     public Terrain createTerrain() {
         Terrain terrain = new Terrain(fieldWidth, fieldHeight, fieldX, fieldY, goalWidth, goalHeight);
         terrain.createTerrain();
 
         return terrain;
     }
-    public Label createLabelScore(String labelName){return null;}
+
+    // La méthode createLabelScore n'est pas utilisée dans cette factory
+    public Label createLabelScore(String labelName) {
+        return null;
+    }
 }

@@ -20,7 +20,6 @@ public class Terrain {
     private double goalWidth;
     private double goalHeight;
 
-
     public Terrain(double fieldWidth,double fieldHeight,double fieldX,double fieldY,double goalWidth,double goalHeight) {
         points = new ArrayList<>();
         this.fieldWidth = fieldWidth;
@@ -31,6 +30,7 @@ public class Terrain {
         this.goalHeight =goalHeight;
     }
 
+    // Ajoute un point à la liste des points du terrain
     public void addPoint(double x, double y) {
         points.add(new Point(x, y));
     }
@@ -43,12 +43,10 @@ public class Terrain {
         this.points = points;
     }
 
-
-    // Create field and goals using points
+    // Crée le terrain et les buts à l'aide des points
     public void createTerrain() {
 
-        // Add field points
-
+        // Ajoute les points du terrain
         addPoint(fieldX, fieldY);
         addPoint(fieldX + fieldWidth, fieldY);
         addPoint(fieldX + fieldWidth, fieldY + (fieldHeight - goalHeight) / 2.0);
@@ -63,23 +61,20 @@ public class Terrain {
         addPoint(fieldX, fieldY + (fieldHeight - goalHeight) / 2.0);
     }
 
+    // Dessine les lignes du terrain sur un Pane
     public void drawLines(Pane pane) {
-        // Create a Polyline for the entire field and goals
         Polyline polyline = new Polyline();
 
-        // Add all points to the polyline
         for (Point p : points) {
             polyline.getPoints().addAll(p.getX(), p.getY());
         }
 
-        // Connect the last point to the first point to close the polyline
         polyline.getPoints().addAll(points.get(0).getX(), points.get(0).getY());
-
-        // Set the stroke color and add the polyline to the pane
         polyline.setStroke(Color.RED);
         pane.getChildren().add(polyline);
     }
 
+    // Définit l'image de fond du terrain
     public void setBackgroundImage(Pane root) {
         try {
             File file = new File("image/field.png");
@@ -89,6 +84,8 @@ public class Terrain {
             System.out.println("Error loading image: " + e.getMessage());
         }
     }
+
+    // Getters et Setters pour les dimensions du terrain et des buts
 
     public double getFieldWidth() {
         return fieldWidth;

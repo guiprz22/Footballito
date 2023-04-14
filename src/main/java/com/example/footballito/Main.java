@@ -153,9 +153,9 @@ public class Main extends Application {
     private void handleBallInGoals(Balle balle, Label scoreLabelPlayer1, Label scoreLabelPlayer2, Joueur joueur1, Joueur joueur2, Terrain terrain) {
         if (isBallInsideGoal(balle, terrain)) {
             if (balle.getCenterX() < terrain.getFieldWidth() / 2) {
-                score.incrementScoreGauche(scoreLabelPlayer1);
-            } else {
                 score.incrementScoreDroite(scoreLabelPlayer2);
+            } else {
+                score.incrementScoreGauche(scoreLabelPlayer1);
             }
             resetRound(balle, joueur1, joueur2);
         }
